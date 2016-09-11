@@ -1,0 +1,119 @@
+$ pip install flask
+Collecting flask
+  Downloading Flask-0.11.1-py2.py3-none-any.whl (80kB)
+    100% |████████████████████████████████| 81kB 1.0MB/s
+Collecting itsdangerous>=0.21 (from flask)
+  Downloading itsdangerous-0.24.tar.gz (46kB)
+    100% |████████████████████████████████| 51kB 2.0MB/s
+Collecting click>=2.0 (from flask)
+  Downloading click-6.6.tar.gz (283kB)
+    100% |████████████████████████████████| 286kB 1.6MB/s
+Collecting Werkzeug>=0.7 (from flask)
+  Downloading Werkzeug-0.11.11-py2.py3-none-any.whl (306kB)
+    100% |████████████████████████████████| 307kB 217kB/s
+Requirement already satisfied (use --upgrade to upgrade): Jinja2>=2.4 in ./conda/lib/python2.7/site-packages (from flask)
+Requirement already satisfied (use --upgrade to upgrade): MarkupSafe in ./conda/lib/python2.7/site-packages (from Jinja2>=2.4->flask)
+Building wheels for collected packages: itsdangerous, click
+  Running setup.py bdist_wheel for itsdangerous ... done
+  Stored in directory: /home/jslater/.cache/pip/wheels/fc/a8/66/24d655233c757e178d45dea2de22a04c6d92766abfb741129a
+  Running setup.py bdist_wheel for click ... done
+  Stored in directory: /home/jslater/.cache/pip/wheels/b0/6d/8c/cf5ca1146e48bc7914748bfb1dbf3a40a440b8b4f4f0d952dd
+Successfully built itsdangerous click
+Installing collected packages: itsdangerous, click, Werkzeug, flask
+Successfully installed Werkzeug-0.11.11 click-6.6 flask-0.11.1 itsdangerous-0.24
+
+
+$ pip install backports.lzma
+Collecting backports.lzma
+  Using cached backports.lzma-0.0.6.tar.gz
+Building wheels for collected packages: backports.lzma
+  Running setup.py bdist_wheel for backports.lzma ... error
+  Complete output from command /home/jslater/conda/bin/python -u -c "import setuptools, tokenize;__file__='/tmp/pip-build-oHpbS9/backports.lzma/setup.py';exec(compile(getattr(tokenize, 'open', open)(__file__).read().replace('\r\n', '\n'), __file__, 'exec'))" bdist_wheel -d /tmp/tmpxEgjKYpip-wheel- --python-tag cp27:
+  This is backports.lzma version 0.0.6
+  running bdist_wheel
+  running build
+  running build_py
+  creating build
+  creating build/lib.linux-x86_64-2.7
+  creating build/lib.linux-x86_64-2.7/backports
+  copying backports/__init__.py -> build/lib.linux-x86_64-2.7/backports
+  creating build/lib.linux-x86_64-2.7/backports/lzma
+  copying backports/lzma/__init__.py -> build/lib.linux-x86_64-2.7/backports/lzma
+  running build_ext
+  building 'backports/lzma/_lzma' extension
+  creating build/temp.linux-x86_64-2.7
+  creating build/temp.linux-x86_64-2.7/backports
+  creating build/temp.linux-x86_64-2.7/backports/lzma
+  gcc -pthread -fno-strict-aliasing -g -O2 -DNDEBUG -g -fwrapv -O3 -Wall -Wstrict-prototypes -fPIC -I/home/jslater/include -I/opt/local/include -I/usr/local/include -I/home/jslater/conda/include/python2.7 -c backports/lzma/_lzmamodule.c -o build/temp.linux-x86_64-2.7/backports/lzma/_lzmamodule.o
+  backports/lzma/_lzmamodule.c:115:18: fatal error: lzma.h: No such file or directory
+   #include <lzma.h>
+                    ^
+  compilation terminated.
+  error: command 'gcc' failed with exit status 1
+
+  ----------------------------------------
+  Failed building wheel for backports.lzma
+  Running setup.py clean for backports.lzma
+Failed to build backports.lzma
+Installing collected packages: backports.lzma
+  Running setup.py install for backports.lzma ... error
+    Complete output from command /home/jslater/conda/bin/python -u -c "import setuptools, tokenize;__file__='/tmp/pip-build-oHpbS9/backports.lzma/setup.py';exec(compile(getattr(tokenize, 'open', open)(__file__).read().replace('\r\n', '\n'),  __file__, 'exec'))" install --record /tmp/pip-RMH2N1-record/install-record.txt --single-version-externally-managed --compile:
+    This is backports.lzma version 0.0.6
+    running install
+    running build
+    running build_py
+    creating build
+    creating build/lib.linux-x86_64-2.7
+    creating build/lib.linux-x86_64-2.7/backports
+    copying backports/__init__.py -> build/lib.linux-x86_64-2.7/backports
+    creating build/lib.linux-x86_64-2.7/backports/lzma
+    copying backports/lzma/__init__.py -> build/lib.linux-x86_64-2.7/backports/lzma
+    running build_ext
+    building 'backports/lzma/_lzma' extension
+    creating build/temp.linux-x86_64-2.7
+    creating build/temp.linux-x86_64-2.7/backports
+    creating build/temp.linux-x86_64-2.7/backports/lzma
+    gcc -pthread -fno-strict-aliasing -g -O2 -DNDEBUG -g -fwrapv -O3 -Wall -Wstrict-prototypes -fPIC -I/home/jslater/include -I/opt/local/include -I/usr/local/include -I/home/jslater/conda/include/python2.7 -c backports/lzma/_lzmamodule.c -o build/temp.linux-x86_64-2.7/backports/lzma/_lzmamodule.o
+    backports/lzma/_lzmamodule.c:115:18: fatal error: lzma.h: No such file or directory
+     #include <lzma.h>
+                      ^
+    compilation terminated.
+    error: command 'gcc' failed with exit status 1
+
+    ----------------------------------------
+Command "/home/jslater/conda/bin/python -u -c "import setuptools, tokenize;__file__='/tmp/pip-build-oHpbS9/backports.lzma/setup.py';exec(compile(getattr(tokenize, 'open', open)(__file__).read().replace('\r\n', '\n'), __file__, 'exec'))" install --record /tmp/pip-RMH2N1-record/install-record.txt --single-version-externally-managed --compile" failed with error code 1 in /tmp/pip-build-oHpbS9/backports.lzma/
+
+
+
+```bash
+$ pip install flask
+
+Collecting flask
+  Using cached Flask-0.11.1-py2.py3-none-any.whl
+Requirement already satisfied (use --upgrade to upgrade): itsdangerous>=0.21 in ./conda/lib/python2.7/site-packages (from flask)
+Requirement already satisfied (use --upgrade to upgrade): click>=2.0 in ./conda/lib/python2.7/site-packages (from flask)
+Requirement already satisfied (use --upgrade to upgrade): Werkzeug>=0.7 in ./conda/lib/python2.7/site-packages (from flask)
+Requirement already satisfied (use --upgrade to upgrade): Jinja2>=2.4 in ./conda/lib/python2.7/site-packages (from flask)
+Requirement already satisfied (use --upgrade to upgrade): MarkupSafe in ./conda/lib/python2.7/site-packages (from Jinja2>=2.4->flask)
+Installing collected packages: flask
+Successfully installed flask-0.11.1
+```
+
+```bash
+$ pip install flask
+
+Collecting flask
+Collecting itsdangerous>=0.21 (from flask)
+Collecting click>=2.0 (from flask)
+Collecting Werkzeug>=0.7 (from flask)
+Requirement already satisfied (use --upgrade to upgrade): Jinja2>=2.4 in ./conda/lib/python2.7/site-packages (from flask)
+Requirement already satisfied (use --upgrade to upgrade): MarkupSafe in ./conda/lib/python2.7/site-packages (from Jinja2>=2.4->flask)
+Building wheels for collected packages: itsdangerous, click
+  Running setup.py bdist_wheel for itsdangerous ... done
+  Stored in directory: /home/jslater/.cache/pip/wheels/fc/a8/66/24d655233c757e178d45dea2de22a04c6d92766abfb741129a
+  Running setup.py bdist_wheel for click ... done
+  Stored in directory: /home/jslater/.cache/pip/wheels/b0/6d/8c/cf5ca1146e48bc7914748bfb1dbf3a40a440b8b4f4f0d952dd
+Successfully built itsdangerous click
+Installing collected packages: itsdangerous, click, Werkzeug, flask
+Successfully installed Werkzeug-0.11.11 click-6.6 flask-0.11.1 itsdangerous-0.24
+```

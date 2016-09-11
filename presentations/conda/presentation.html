@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Conda Presentation</title>
+    <meta charset="utf-8">
+
+    <!--Remarkjs-->
+    <script src="lib/remark-latest.min.js"></script>
+
+    <!--Highlightjs-->
+    <link rel="stylesheet" href="lib/highlight.min.css">
+    <script src="lib/highlight.min.js"></script>
+
+    <!--Our custom css-->
+    <link href="src/slaterbyte.css" rel="stylesheet">
+</head>
+<body>
+
+<div id="player-container"></div>
+<textarea id="source">
+    class: center, middle
+
+    ![Conda Logo](lib/conda_logo.svg "Logo Title Text 1")
+
+    ### 'Universal' {Package, Environment, Build} Manager
+    #### For Python and Beyond
+
+    ---
+    class: center, middle
+
+    # Me
+
+    James Slater
+
+    Systems Engineer
+
+    [@slaterbyte](https://twitter.com/slaterbyte)
+
+    xfce is my preferred desktop environment
+
+
+    ---
+
+
+    # Today
+
+    ### ‣ Where have traditional Python tools failed?
+    ### ‣ How does Conda ease the pain?
+    ### ‣ Pain points
+    ### ‣ Q&A  - Demo
+
+    ---
+
+    # Traditional Python Tooling
+
+    #### ⚫ *pip* for Package Management
+    #### ⚫ *virtualenv* for Environment Management
+
+    ---
+    # Pip
+    #### ✔ Great at installing and managing pure Python packages
+
+    ```bash
+    $ pip install requests
+    Collecting requests
+      Downloading requests-2.11.1-py2.py3-none-any.whl (514kB)
+        100% |████████████████████████████████| 522kB 535kB/s
+    Installing collected packages: requests
+    *Successfully installed requests-2.11.1
+    ```
+
+    ---
+    # Pip
+    #### 😠 Not a great C/C++ build tool
+    ```bash
+    $ pip install backports.lzma
+    Collecting backports.lzma
+    Building wheels for collected packages: backports.lzma
+    Running setup.py bdist_wheel for backports.lzma ... error
+    ...
+    * backports/lzma/_lzmamodule.c:115:18: fatal error: lzma.h: No such file or directory
+    *  #include <lzma.h>
+                      ^
+      compilation terminated.
+      error: command 'gcc' failed with exit status 1
+      ----------------------------------------
+      Failed building wheel for backports.lzma
+      Running setup.py clean for backports.lzma
+    *Failed to build backports.lzma
+    ```
+    ---
+    # Virtualenv
+    #### ✔ Alright at isolating Python environments
+    ```bash
+    $ virtualenv foobar
+    New python executable in foobar/bin/python
+    Installing setuptools, pip...done.
+
+    $ . foobar/bin/activate
+    (foobar):~$ which python
+    */home/jslater/foobar/bin/python
+
+    #*#*#*#*#*#*# Caveat emptor #*#*#*#*#*#*#
+    $ tree ./foobar
+    foobar
+    ├── bin
+    │   ├── ...
+    │   ├── pip
+    *│   ├── python
+    │   └── python2.7 -> python
+    ├── ...
+    ├── lib
+    │   └── python2.7
+    *│       ├── _abcoll.py -> /usr/lib/python2.7/_abcoll.py
+    │       ├── _abcoll.pyc
+    *│       ├── abc.py -> /usr/lib/python2.7/abc.py
+    │       ├── abc.pyc
+    │       ├── ...
+    ```
+    ---
+    # Virtualenv
+    #### 😠 Not great at different Python versions
+    <!--Let's say I need to install Python 2.6 (because legacy)-->
+
+    ```bash
+    # Let's say I need to install Python 2.6 (because legacy)
+    #
+    # Here's an excerpt from http://stackoverflow.com/questions/5506110
+    # "Is it possible to install another version of python to virtualenv"
+    #
+
+    mkdir ~/src
+    mkdir ~/.localpython
+    cd ~/src
+    wget http://www.python.org/ftp/python/2.6.9/Python-2.6.9.tgz
+    tar -zxvf Python-2.6.9.tgz
+    cd Python-2.6.9
+
+    make clean
+    ./configure --prefix=/home/${USER}/.localpython
+    make
+    make install
+
+    # ¡GROSS!
+    # ¡BUILDS WILL DIFFER BETWEEN DEV, TEST, PROD!
+    ```
+    ---
+    # Conda: Install
+    #### The Two flavors
+    - Miniconda
+      - Includes Conda tooling
+      - Includes Python 2.7 (or optionally Python 3.5)
+      - http://conda.pydata.org/miniconda.html (27MiB)
+
+    - Anaconda
+      - Includes Conda tooling
+      - Includes Python 2.7 (or optionally Python 3.5)
+      - **Includes One Metric Ton of Packages** (see https://docs.continuum.io/anaconda/pkg-docs)
+      - https://www.continuum.io/downloads (405 MiB)
+
+    ---
+    # Conda: Install
+    #### Making it available in your PATH
+
+    ```bash
+    # For Bash
+    echo 'export PATH="/home/${USER}/conda/bin:$PATH"' >> ~/.bashrc
+
+    # For ZSH
+    echo 'export PATH="/home/${USER}/conda/bin:$PATH"' >> ~/.zshrc
+
+    # Verify after starting a new shell!
+    $ which python
+    /home/jslater/conda/bin/python
+
+    $ python --version
+    Python 2.7.12 :: Continuum Analytics, Inc.
+
+    #*#*#*#*#*#*# Caveat emptor #*#*#*#*#*#*#
+    # This user's Python is no longer the system Python!
+    # Available modules are different!
+    # Python version is different!
+    ```
+
+    ---
+
+    # Conda: Package Manager
+    #### ✔ Great at installing and managing pure Python packages
+
+    ```bash
+    $ conda install requests
+    Fetching package metadata: ........
+    Solving package specifications: ................
+    Package plan for installation in environment /home/jslater/conda:
+
+    The following NEW packages will be INSTALLED:
+
+        requests: 2.11.1-py27_0 defaults
+
+    Proceed ([y]/n)?
+
+    Linking packages ...
+    *[      COMPLETE      ]|##############################################| 100%
+    ```
+
+    ---
+    # Conda: Package Manager
+    #### ✔ Packages are precompiled per platform
+    #### ✔ Does not try to build C/C++ on the fly
+
+    ```bash
+    # backports.lzma is only available from another user, so we specify a "channel"
+    # Roughly equivalent to pulling from a PPA
+    $ conda install --channel akuendig backports.lzma=0.0.3
+
+    Fetching package metadata: ..........
+    Solving package specifications: ............
+    Package plan for installation in environment /home/jslater/conda:
+
+    The following packages will be downloaded:
+
+        package                    |            build
+        ---------------------------|-----------------
+        backports.lzma-0.0.3       |           py27_0          46 KB  akuendig
+
+    The following NEW packages will be INSTALLED:
+
+        backports.lzma: 0.0.3-py27_0 akuendig
+
+    Proceed ([y]/n)? y
+
+    Fetching packages ...
+    backports.lzma 100% |###############################################| Time: 0:00:00 340.95 kB/s
+    Extracting packages ...
+    [      COMPLETE      ]|##################################################################| 100%
+    Linking packages ...
+    *[      COMPLETE      ]|##################################################################| 100%
+    ```
+    ---
+    # Conda: Package Manager
+    #### ✔ Packages do not have to be Python based
+    ```bash
+    $ conda install --channel bioconda ruby=2.2.2
+    Fetching package metadata: ......
+    Solving package specifications: ................
+    Package plan for installation in environment /home/jslater/conda/envs/foobar:
+
+    The following packages will be downloaded:
+
+        package                    |            build
+        ---------------------------|-----------------
+        libgcc-5.2.0               |                0         1.1 MB  defaults
+        ruby-2.2.2                 |           py27_2        23.4 MB  bioconda
+        ------------------------------------------------------------
+                                               Total:        24.5 MB
+
+    The following NEW packages will be INSTALLED:
+
+        libgcc: 5.2.0-0      defaults
+        ruby:   2.2.2-py27_2 bioconda
+
+    Proceed ([y]/n)? y
+
+    Fetching packages ...
+    libgcc-5.2.0-0 100% ################################################| Time: 0:00:01   1.07 MB/s
+    ruby-2.2.2-py2 100% |###############################################| Time: 0:00:25 974.17 kB/s
+    Extracting packages ...
+    [      COMPLETE      ]|##################################################################| 100%
+    Linking packages ...
+    *[      COMPLETE      ]|##################################################################| 100%
+    ```
+    ---
+    # Conda: Environment Manager
+    #### ✔ Great at isolating Python environments
+
+    ```bash
+    $ conda create -n foobar python=2.7
+    Fetching package metadata: ....
+    Solving package specifications: ..........
+    Package plan for installation in environment /home/jslater/conda/envs/foobar:
+
+    The following NEW packages will be INSTALLED:
+
+        openssl:    1.0.2h-1      defaults
+        pip:        8.1.2-py27_0  defaults
+        python:     2.7.12-1      defaults
+        readline:   6.2-2         defaults
+        setuptools: 26.1.1-py27_0 defaults
+        sqlite:     3.13.0-0      defaults
+        tk:         8.5.18-0      defaults
+        wheel:      0.29.0-py27_0 defaults
+        zlib:       1.2.8-3       defaults
+
+    Proceed ([y]/n)? y
+
+    Linking packages ...
+    *[      COMPLETE      ]|##################################################################| 100%
+    #
+    # To activate this environment, use:
+    # $ source activate foobar
+    #
+    # To deactivate this environment, use:
+    # $ source deactivate
+    #
+    ```
+    ---
+    # Conda: Environment Manager
+    #### ✔ Great at isolating Python environments
+
+    ```bash
+    $ . activate foobar
+    discarding /home/jslater/conda/bin from PATH
+    prepending /home/jslater/conda/envs/foobar/bin to PATH
+
+    (foobar)$ which python
+    /home/jslater/conda/envs/foobar/bin/python
+
+    (foobar)$ tree /home/jslater/conda/envs/foobar
+    /home/jslater/conda/envs/foobar
+    ├── bin
+    │   ├── ...
+    │   ├── pip
+    │   ├── python -> python2.7
+    │   ├── python2 -> python2.7
+    *│   └── python2.7
+    ├── ...
+    ├── lib
+    │   └── python2.7
+    *│       ├── _abcoll.py
+    │       ├── _abcoll.pyc
+    │       ├── _abcoll.pyo
+    *│       ├── abc.py
+    │       ├── abc.pyc
+    │       ├── abc.pyo
+    │       ├── ...
+    ```
+    ---
+    # Conda: Environment Manager
+    #### ✔ Great at different Python versions
+
+    ```bash
+    $ conda create -n foobar2.6 python=2.6
+    Fetching package metadata: ....
+    Solving package specifications: ...........
+    Package plan for installation in environment /home/jslater/conda/envs/foobar2.6:
+
+    The following NEW packages will be INSTALLED:
+
+        openssl:    1.0.1k-1      defaults
+        pip:        7.1.0-py26_0  defaults
+        python:     2.6.9-1       defaults
+        readline:   6.2-2         defaults
+        setuptools: 18.0.1-py26_0 defaults
+        sqlite:     3.13.0-0      defaults
+        system:     5.8-2         defaults
+        tk:         8.5.18-0      defaults
+        zlib:       1.2.8-3       defaults
+
+    Proceed ([y]/n)? y
+
+    Linking packages ...
+    *[      COMPLETE      ]|#################################################################| 100%
+    #
+    # To activate this environment, use:
+    # $ source activate foobar2.6
+    #
+    # To deactivate this environment, use:
+    # $ source deactivate
+    #
+    ```
+
+    ---
+    # Conda: Environment Manager
+    #### ✔ Great at different Python versions
+
+    ```bash
+    $ . activate foobar2.6
+    discarding /home/jslater/conda/bin from PATH
+    prepending /home/jslater/conda/envs/foobar2.6/bin to PATH
+
+    (foobar2.6)$ python --version
+    *Python 2.6.9 :: Continuum Analytics, Inc.
+    ```
+    ---
+    # Conda: Pain Points
+    #### ‣ Dependency resolution when packages require different versions
+    #### ‣ Moving/Copying an environment - Litters the environment with absolute symlinks
+    #### ‣ Keeping an environment static - Tries to add/remove unrelated packages.
+    #### ‣ General Growing Pains. First commit was Oct 15, 2012
+
+    ---
+    # All for Now
+
+    ### Resources
+
+    - Reach me at [@slaterbyte](https://twitter.com/slaterbyte)
+    - Conda Docs: [http://conda.pydata.org/](http://conda.pydata.org/)
+
+    ### Colophon - Making the Sausage
+
+    - [remarkjs](https://remarkjs.com): Markdown-driven slideshow tool
+    - [highlightjs](https://highlightjs.org): Syntax highlighting
+    - [Google Fonts](https://fonts.google.com): Roboto, Inconsolata
+
+</textarea>
+<script defer>
+    var slideshow = remark.create({
+        highlightLines: true,
+        highlightStyle: "github"
+    });
+</script>
+</body>
+</html>
